@@ -16,15 +16,21 @@ Plug 'majutsushi/tagbar'
 Plug 'Valloric/YouCompleteMe'
 
 Plug 'vim-airline/vim-airline'
+
 Plug 'raimondi/delimitmate'
+" git notification for change
 Plug 'airblade/vim-gitgutter'
+" Commenter
 Plug 'scrooloose/nerdcommenter'
+" header/src quick switcher
 Plug 'derekwyatt/vim-fswitch'
 " Track the engine.
 Plug 'SirVer/ultisnips'
-"
+" Atom One theme for Vim/NeoVim
+Plug 'rakr/vim-one'
 " " Snippets are separated from the engine. Add this if you want them:
 Plug 'honza/vim-snippets'
+
 call plug#end()
 
 " Turn on syntax highlighting
@@ -39,7 +45,7 @@ nnoremap <leader>w :w<cr>
 nnoremap <leader>q :quit<cr>
 nnoremap <leader>wq :wq<cr>
 nnoremap <leader>bd :bd<cr>
-nnoremap <leader>so :so %<cr>
+nnoremap <leader>so :so ~/.vimrc<cr>
 nnoremap <leader>bn :bn<cr>
 nnoremap <leader>bp :bp<cr>
 
@@ -48,6 +54,7 @@ set modelines=0
 
 " Show line numbers
 set number 
+
 " Show file stats
 set ruler
 
@@ -65,7 +72,7 @@ set guifont=
 
 " Whitespace
 set wrap
-set textwidth=79
+set textwidth=119
 set formatoptions=tcqrn1
 set tabstop=2
 set shiftwidth=2
@@ -116,13 +123,13 @@ map <leader><space> :let @/=''<cr> " clear search
 "map <leader>q gqip
 
 " Folding
-set foldenable
-set foldmarker={,}
-set foldmethod=marker
-set foldcolumn=0
+"set foldenable
+"set foldmarker={,}
+"set foldmethod=marker
+"set foldcolumn=0
 
 " Cursorline
-set cursorline
+" set cursorline
 " set cursorcolumn
 
 " vim cmd autocomplete
@@ -140,13 +147,32 @@ map <leader>le :set list!<CR> " Toggle tabs and EOL
 
 " Color scheme (terminal)
 set t_Co=256
-set background=light "dark
-" let g:solarized_termcolors=256
-" let g:solarized_termtrans=1
-" put https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
-" in ~/.vim/colors/ and uncomment:
-colorscheme desert
-"colorscheme morning
+
+if (empty($TMUX))
+  if (has("nvim"))
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+endif
+let g:one_allow_italics = 1 " I love italic for comments
+
+"if strftime('%H') >= 17
+  "set background=dark
+  "colorscheme one-dark
+"else
+  "set background=light
+  "colorscheme one
+"endif
+
+set background=dark
+colorscheme one
+
+nnoremap <leader>bgl :set background=light<cr>
+nnoremap <leader>bgd :set background=dark<cr>
+nnoremap <leader>cso :colorscheme one<cr>
+
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
@@ -199,9 +225,7 @@ nmap <leader>v :vsplit<CR>
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
-let g:airline_left_sep = '»'
 let g:airline_left_sep = '▶'
-let g:airline_right_sep = '«'
 let g:airline_right_sep = '◀'
 let g:airline_symbols.linenr = '␊'
 let g:airline_symbols.linenr = '␤'
@@ -211,14 +235,11 @@ let g:airline_symbols.paste = 'ρ'
 let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.paste = '∥'
 let g:airline_symbols.whitespace = 'Ξ'
-"let g:airline_left_sep = '▶'
 let g:airline_left_alt_sep = '❯'
-"let g:airline_right_sep = '◀'
 let g:airline_right_alt_sep = '❮'
-"let g:airline_symbols.linenr = '¶'
-"let g:airline_symbols.branch = '⎇'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
+let g:airline_theme='one'
 "" --------------------------------------------------------------------------------
 " delimitmate
 
@@ -253,3 +274,4 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+
