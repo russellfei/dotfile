@@ -9,27 +9,46 @@ filetype off
 " DONE: Load plugins here (pathogen or vundle)
 call plug#begin('~/.vim/plugged')
 
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-Plug 'shougo/unite.vim'
-Plug 'shougo/vimfiler.vim'
-Plug 'majutsushi/tagbar'
-Plug 'Valloric/YouCompleteMe'
+" Fzf plug via brew
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+" powerful git flow
+Plug 'tpope/vim-fugitive'
 
-Plug 'vim-airline/vim-airline'
+if has('gui_running')
+  " File Tree like NERDTree
+  Plug 'tpope/vim-vinegar'
+else
+  " ranger file system
+  Plug 'francoiscabrol/ranger.vim'
+  if has('nvim')
+    Plug 'rbgrouleff/bclose.vim'
+  endif
+endif
 
-Plug 'raimondi/delimitmate'
 " git notification for change
 Plug 'airblade/vim-gitgutter'
-" Commenter
-Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-surround'
+
+" tagbar with universial-ctags 
+Plug 'majutsushi/tagbar'
+" code completion, search for alternatives
+Plug 'Valloric/YouCompleteMe'
 " header/src quick switcher
 Plug 'derekwyatt/vim-fswitch'
+" Commenter
+Plug 'scrooloose/nerdcommenter'
+" Auto close pair
+Plug 'raimondi/delimitmate'
 " Track the engine.
 Plug 'SirVer/ultisnips'
+" Snippets are separated from the engine. Add this if you want them:
+Plug 'honza/vim-snippets'
+
+" Fancy mode line
+Plug 'vim-airline/vim-airline'
 " Atom One theme for Vim/NeoVim
 Plug 'rakr/vim-one'
-" " Snippets are separated from the engine. Add this if you want them:
-Plug 'honza/vim-snippets'
 
 call plug#end()
 
@@ -41,13 +60,19 @@ filetype plugin indent on
 
 " DONE: Pick a leader key
 let mapleader = " "
+" write and quit
 nnoremap <leader>w :w<cr>
 nnoremap <leader>q :quit<cr>
 nnoremap <leader>wq :wq<cr>
+" buffer close
 nnoremap <leader>bd :bd<cr>
+" source/reload vimrc
 nnoremap <leader>so :so ~/.vimrc<cr>
+" buffer navigation
 nnoremap <leader>bn :bn<cr>
 nnoremap <leader>bp :bp<cr>
+" white space clean up macro
+nnoremap <leader>wc :%s/s+$//g<cr>
 
 " Security
 set modelines=0
@@ -68,7 +93,7 @@ set visualbell
 set encoding=utf-8
 set fileencodings=utf-8
 set guifontset=
-set guifont=
+set guifont=Source\ Code\ Pro\ for\ Powerline:h12
 
 " Whitespace
 set wrap
@@ -166,12 +191,11 @@ let g:one_allow_italics = 1 " I love italic for comments
   "colorscheme one
 "endif
 
-set background=dark
+set background=light
 colorscheme one
 
-nnoremap <leader>bgl :set background=light<cr>
-nnoremap <leader>bgd :set background=dark<cr>
-nnoremap <leader>cso :colorscheme one<cr>
+nnoremap <leader>bgl :set background=light<cr>:colorscheme one<cr>
+nnoremap <leader>bgd :set background=dark<cr>:colorscheme one<cr>
 
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
@@ -181,32 +205,13 @@ set guioptions-=L  "remove left-hand scroll bar
 " --------------------------------------------------------------------------------
 " Plugin settings
 " --------------------------------------------------------------------------------
-" LeaderF
-let g:Lf_ShortcutF='<C-p>'
-let g:Lf_DefaultExternalTool = 'pt'
-nnoremap <leader>f :LeaderfFile<cr>
-nnoremap <leader>fu :LeaderfFunction<cr>
-nnoremap <leader>fa :LeaderfFunctionAll<cr>
-nnoremap <leader>b :LeaderfBufferAll<cr>
-nnoremap <leader>e :LeaderfFileFullScreen<cr>
-nnoremap <leader>m :LeaderfMru<cr>
-nnoremap <leader>l :LeaderfLineAll<cr>
-nnoremap <leader>t :LeaderfTag<cr>
-nnoremap <leader>cs :LeaderfColorscheme<cr>
-
-" --------------------------------------------------------------------------------
 " FSwitch
 nnoremap <leader>fsh :FSHere<cr>
 
 " --------------------------------------------------------------------------------
-" Vimfiler
-let g:vimfiler_as_default_explorer = 1
-map <F3> :VimFilerExplore<CR>
-
-" --------------------------------------------------------------------------------
 " Tagbar
 nmap <F2> :TagbarToggle<CR>
-map <leader>t:!ctags -R –c++-kinds=+p –fields=+iaS –extra=+q .<CR>
+map <leader>t :!ctags -R –c++-kinds=+p –fields=+iaS –extra=+q .<CR>
 " --------------------------------------------------------------------------------
 
 " Window navigate
@@ -221,25 +226,62 @@ nmap <leader>h :split<CR>
 nmap <leader>v :vsplit<CR>
 
 " --------------------------------------------------------------------------------
+" FileTree settings
+if has('gui_macvim')
+  let g:netrw_liststyle = 1
+  let g:netwr_browse_split = 4
+  let g:netrw_altv = 1
+  let g:netrw_winsize = 25
+  let g:netrw_banner = 0
+  let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+else
+  let g:loaded_netrwPlugin = 1
+  let g:ranger_replace_netrw = 1
+  let g:ranger_map_keys = 0
+  nnoremap <F3> :RangerCurrentDirectoryNewTab<cr>
+endif
+
+" --------------------------------------------------------------------------------
 " Vim-Airline
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='one'
+
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '◀'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.whitespace = 'Ξ'
-let g:airline_left_alt_sep = '❯'
-let g:airline_right_alt_sep = '❮'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
-let g:airline_theme='one'
+
+if !exists('g:airline_powerline_fonts')
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = '|'
+  let g:airline_left_sep          = '▶'
+  let g:airline_left_alt_sep      = '»'
+  let g:airline_right_sep         = '◀'
+  let g:airline_right_alt_sep     = '«'
+  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+  let g:airline#extensions#readonly#symbol   = '⊘'
+  let g:airline#extensions#linecolumn#prefix = '¶'
+  let g:airline#extensions#paste#symbol      = 'ρ'
+  let g:airline_symbols.linenr    = '␊'
+  let g:airline_symbols.branch    = '⎇'
+  let g:airline_symbols.paste     = 'ρ'
+  let g:airline_symbols.paste     = 'Þ'
+  let g:airline_symbols.paste     = '∥'
+  let g:airline_symbols.whitespace = 'Ξ'
+else
+  let g:airline#extensions#tabline#left_sep = ''
+  let g:airline#extensions#tabline#left_alt_sep = ''
+
+  " powerline symbols
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
+endif
+
 "" --------------------------------------------------------------------------------
 " delimitmate
 
@@ -249,14 +291,23 @@ let g:gitgutter_async=1
 
 " --------------------------------------------------------------------------------
 " YCM config
+set completeopt=longest,menu
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_auto_trigger = 1
 let g:ycm_key_list_select_completion=[]
 let g:ycm_key_list_previous_completion=[]
-let g:ycm_min_num_of_chars_for_completion=1
 let g:ycm_confirm_extra_conf=0
 let g:ycm_max_diagnostics_to_display=0
+
+let g:ycm_collect_identifiers_from_tags_files=1
+let g:ycm_min_num_of_chars_for_completion=2
+let g:ycm_cache_omnifunc=0
+let g:ycm_seed_identifiers_with_syntax=1
+
+let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_completion = 1 
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
 nnoremap <F5>           :YcmForceCompileAndDiagnostics<CR>
 nnoremap <leader>gi     :YcmCompleter GoToInclude<CR>
 nnoremap <leader>gd     :YcmCompleter GoToDeclaration<CR>
