@@ -15,16 +15,7 @@ Plug 'junegunn/fzf.vim'
 " powerful git flow
 Plug 'tpope/vim-fugitive'
 
-if has('gui_running')
-  " File Tree like NERDTree
-  Plug 'tpope/vim-vinegar'
-else
-  " ranger file system
-  Plug 'francoiscabrol/ranger.vim'
-  if has('nvim')
-    Plug 'rbgrouleff/bclose.vim'
-  endif
-endif
+Plug 'tpope/vim-vinegar'
 
 " git notification for change
 Plug 'airblade/vim-gitgutter'
@@ -97,7 +88,7 @@ set guifont=Source\ Code\ Pro\ for\ Powerline:h12
 
 " Whitespace
 set wrap
-set textwidth=119
+set textwidth=999
 set formatoptions=tcqrn1
 set tabstop=2
 set shiftwidth=2
@@ -227,19 +218,19 @@ nmap <leader>v :vsplit<CR>
 
 " --------------------------------------------------------------------------------
 " FileTree settings
-if has('gui_macvim')
+"if has('gui_macvim')
   let g:netrw_liststyle = 1
   let g:netwr_browse_split = 4
   let g:netrw_altv = 1
   let g:netrw_winsize = 25
   let g:netrw_banner = 0
   let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
-else
-  let g:loaded_netrwPlugin = 1
-  let g:ranger_replace_netrw = 1
-  let g:ranger_map_keys = 0
-  nnoremap <F3> :RangerCurrentDirectoryNewTab<cr>
-endif
+"else
+  "let g:loaded_netrwPlugin = 1
+  "let g:ranger_replace_netrw = 1
+  "let g:ranger_map_keys = 0
+  "nnoremap <F3> :RangerCurrentDirectoryNewTab<cr>
+"endif
 
 " --------------------------------------------------------------------------------
 " Vim-Airline
