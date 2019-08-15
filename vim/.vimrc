@@ -19,7 +19,8 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 
 " file browser
-Plug 'ranger/ranger'
+Plug 'francoiscabrol/ranger.vim'
+Plug 'rbgrouleff/bclose.vim'
 
 " tagbar with universial-ctags 
 Plug 'majutsushi/tagbar'
@@ -218,46 +219,9 @@ nmap <leader>h :split<CR>
 nmap <leader>v :vsplit<CR>
 
 " --------------------------------------------------------------------------------
-" FileTree settings
-"if has('gui_macvim')
-let g:netrw_banner = 0
-let g:netrw_keepdir = 0
-let g:netrw_liststyle = 3
-let g:netwr_browse_split = 4
-let g:netrw_altv = 1
-"let g:netrw_winsize = 18
-let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+,\(^\|\s\s\)ntuser\.\S\+'
-set autochdir
-"autocmd FileType netrw set nolist
-"augroup ProjectDrawer
-"  autocmd!
-"  autocmd VimEnter * :Vexplore
-"augroup END
-"function! ToggleLExplorer()
-  "if exists("t:expl_buf_num")
-    "let expl_win_num = bufwinnr(t:expl_buf_num)
-    "if expl_win_num != -1
-      "let cur_win_nr = winnr()
-      "exec expl_win_num . 'wincmd w'
-      "close
-      "exec cur_win_nr . 'wincmd w'
-      "unlet t:expl_buf_num
-    "else
-      "unlet t:expl_buf_num
-    "endif
-  "else
-    "exec '1wincmd w'
-    "Lexplore
-    "let t:expl_buf_num = bufnr("%")
-  "endif
-"endfunction
-"nnoremap <F3> :call ToggleLExplorer()<cr>
-"else
-  "let g:loaded_netrwPlugin = 1
-  "let g:ranger_replace_netrw = 1
-  "let g:ranger_map_keys = 0
-  "nnoremap <F3> :RangerCurrentDirectoryNewTab<cr>
-"endif
+let g:ranger_command_override = 'ranger --cmd "set show_hidden=true"'
+set shell=bash
+nnoremap <F3> :RangerCurrentDirectoryNewTab<cr>
 
 " --------------------------------------------------------------------------------
 " Vim-Airline
