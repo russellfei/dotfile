@@ -12,19 +12,17 @@ call plug#begin('~/.vim/plugged')
 " Fzf plug via brew
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-" powerful git flow
-Plug 'tpope/vim-fugitive'
-
-Plug 'tpope/vim-vinegar'
 
 " git notification for change
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+
+" file browser
+Plug 'ranger/ranger'
 
 " tagbar with universial-ctags 
 Plug 'majutsushi/tagbar'
-" code completion, search for alternatives
-Plug 'Valloric/YouCompleteMe'
 " header/src quick switcher
 Plug 'derekwyatt/vim-fswitch'
 " Commenter
@@ -40,6 +38,9 @@ Plug 'honza/vim-snippets'
 Plug 'vim-airline/vim-airline'
 " Atom One theme for Vim/NeoVim
 Plug 'rakr/vim-one'
+
+" Completion
+Plug 'justmao945/vim-clang'
 
 call plug#end()
 
@@ -182,7 +183,7 @@ let g:one_allow_italics = 1 " I love italic for comments
   "colorscheme one
 "endif
 
-set background=light
+set background=dark
 colorscheme one
 
 nnoremap <leader>bgl :set background=light<cr>:colorscheme one<cr>
@@ -202,7 +203,7 @@ nnoremap <leader>fsh :FSHere<cr>
 " --------------------------------------------------------------------------------
 " Tagbar
 nmap <F2> :TagbarToggle<CR>
-map <leader>t :!ctags -R –c++-kinds=+p –fields=+iaS –extra=+q .<CR>
+"map <leader>t :!ctags -R –c++-kinds=+p –fields=+iaS –extra=+q .<CR>
 " --------------------------------------------------------------------------------
 
 " Window navigate
@@ -219,12 +220,38 @@ nmap <leader>v :vsplit<CR>
 " --------------------------------------------------------------------------------
 " FileTree settings
 "if has('gui_macvim')
-  let g:netrw_liststyle = 1
-  let g:netwr_browse_split = 4
-  let g:netrw_altv = 1
-  let g:netrw_winsize = 25
-  let g:netrw_banner = 0
-  let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_banner = 0
+let g:netrw_keepdir = 0
+let g:netrw_liststyle = 3
+let g:netwr_browse_split = 4
+let g:netrw_altv = 1
+"let g:netrw_winsize = 18
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+,\(^\|\s\s\)ntuser\.\S\+'
+set autochdir
+"autocmd FileType netrw set nolist
+"augroup ProjectDrawer
+"  autocmd!
+"  autocmd VimEnter * :Vexplore
+"augroup END
+"function! ToggleLExplorer()
+  "if exists("t:expl_buf_num")
+    "let expl_win_num = bufwinnr(t:expl_buf_num)
+    "if expl_win_num != -1
+      "let cur_win_nr = winnr()
+      "exec expl_win_num . 'wincmd w'
+      "close
+      "exec cur_win_nr . 'wincmd w'
+      "unlet t:expl_buf_num
+    "else
+      "unlet t:expl_buf_num
+    "endif
+  "else
+    "exec '1wincmd w'
+    "Lexplore
+    "let t:expl_buf_num = bufnr("%")
+  "endif
+"endfunction
+"nnoremap <F3> :call ToggleLExplorer()<cr>
 "else
   "let g:loaded_netrwPlugin = 1
   "let g:ranger_replace_netrw = 1
@@ -281,32 +308,6 @@ endif
 let g:gitgutter_async=1
 
 " --------------------------------------------------------------------------------
-" YCM config
-set completeopt=longest,menu
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-let g:ycm_auto_trigger = 1
-let g:ycm_key_list_select_completion=[]
-let g:ycm_key_list_previous_completion=[]
-let g:ycm_confirm_extra_conf=0
-let g:ycm_max_diagnostics_to_display=0
-
-let g:ycm_collect_identifiers_from_tags_files=1
-let g:ycm_min_num_of_chars_for_completion=2
-let g:ycm_cache_omnifunc=0
-let g:ycm_seed_identifiers_with_syntax=1
-
-let g:ycm_add_preview_to_completeopt = 1
-let g:ycm_autoclose_preview_window_after_completion = 1 
-let g:ycm_autoclose_preview_window_after_insertion = 1
-
-nnoremap <F5>           :YcmForceCompileAndDiagnostics<CR>
-nnoremap <leader>gi     :YcmCompleter GoToInclude<CR>
-nnoremap <leader>gd     :YcmCompleter GoToDeclaration<CR>
-nnoremap <leader>gf     :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>gip    :YcmCompleter GoToImprecise<CR>
-nnoremap <leader>fx     :YcmCompleter FixIt<CR>
-
-" --------------------------------------------------------------------------------
 " Ultisnips
 " Trigger configuration. Do not use <tab> if you use
 " https://github.com/Valloric/YouCompleteMe.
@@ -316,4 +317,11 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+
+" --------------------------------------------------------------------------------
+" vim-clang
+let g:clang_c_options='-std=gnu11'
+let g:clang_cpp_options='-std=c++11 -stdlib=libc++'
+" use compile commands
+let g:clang_compilation_database='./build'
 
