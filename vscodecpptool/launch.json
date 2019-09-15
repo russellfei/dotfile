@@ -1,0 +1,48 @@
+{
+    //1. Use cmake to build your program
+    //2. Copy this launch.json to .vscode in your target program directory
+    //3. Change path settings
+    //4. Set startup breakpoint
+    //5. Run debug
+
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "gdb",
+            "type": "cppdbg",
+            "request": "launch",
+            //TODO change program path to absolute path of your prog
+            "program": "/mnt/d/ff/codespace/codespace/cpp/Spline/main",
+            "args": [],
+            "stopAtEntry": false,
+            //TODO change program path to absolute path of your prog directory
+            "cwd": "/mnt/d/ff/codespace/codespace/cpp/Spline",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "pipeTransport": {
+                "pipeCwd": "",
+                "pipeProgram": "${env:windir}\\System32\\bash.exe",
+                "pipeArgs": [ "-c" ],
+                "debuggerPath": "/usr/bin/gdb"
+            },
+            "logging": {
+                "engineLogging": true,
+                "trace": true
+            },
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "targetArchitecture": "x64",
+            "sourceFileMap": {
+               "/mnt/c": "C:\\",
+               "/mnt/d": "D:\\",
+               "/usr": "C:\\Ubuntu\\rootfs\\usr"
+            }
+        }
+    ]
+}
