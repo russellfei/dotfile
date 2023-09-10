@@ -31,9 +31,9 @@ Plug 'scrooloose/nerdcommenter'
 " Auto close pair
 Plug 'raimondi/delimitmate'
 " Track the engine.
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
-Plug 'honza/vim-snippets'
+" Plug 'honza/vim-snippets'
 
 " Fancy mode line
 Plug 'vim-airline/vim-airline'
@@ -41,7 +41,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'rakr/vim-one'
 
 " Completion
-Plug 'justmao945/vim-clang'
+" Plug 'justmao945/vim-clang'
 
 call plug#end()
 
@@ -86,11 +86,11 @@ set visualbell
 set encoding=utf-8
 set fileencodings=utf-8
 set guifontset=
-set guifont=Source\ Code\ Pro\ for\ Powerline:h12
+set guifont=Source\ Code\ Pro\ for\ powerline:h10
 
 " Whitespace
 set wrap
-set textwidth=999
+set textwidth=120
 set formatoptions=tcqrn1
 set tabstop=2
 set shiftwidth=2
@@ -129,7 +129,7 @@ set incsearch
 set ignorecase
 set smartcase
 set showmatch
-map <leader><space> :let @/=''<cr> " clear search
+" map <leader><space> :let @/=''<cr> " clear search
 
 " Formatting
 " convert multiple lines to extent of ruler
@@ -275,17 +275,17 @@ let g:gitgutter_async=1
 " Ultisnips
 " Trigger configuration. Do not use <tab> if you use
 " https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsUsePythonVersion = 3
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" let g:UltiSnipsUsePythonVersion = 3
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<c-b>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
+" let g:UltiSnipsEditSplit="vertical"
 
 " --------------------------------------------------------------------------------
 " vim-clang
-let g:clang_c_options='-std=gnu11'
-let g:clang_cpp_options='-std=c++11 -stdlib=libc++'
+" let g:clang_c_options='-std=gnu11'
+" let g:clang_cpp_options='-std=c++11 -stdlib=libc++'
 " use compile commands
-let g:clang_compilation_database='./build'
+" let g:clang_compilation_database='./build'
 
