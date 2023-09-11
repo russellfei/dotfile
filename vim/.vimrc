@@ -10,7 +10,7 @@ filetype off
 call plug#begin('~/.vim/plugged')
 
 " Fzf plug via brew
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 " git notification for change
@@ -39,6 +39,8 @@ Plug 'raimondi/delimitmate'
 Plug 'vim-airline/vim-airline'
 " Atom One theme for Vim/NeoVim
 Plug 'rakr/vim-one'
+" Modern CPP highlight
+Plug 'bfrg/vim-cpp-modern'
 
 " Completion
 " Plug 'justmao945/vim-clang'
@@ -86,7 +88,7 @@ set visualbell
 set encoding=utf-8
 set fileencodings=utf-8
 set guifontset=
-set guifont=Source\ Code\ Pro\ for\ powerline:h10
+set guifont=Fira\ Code:h10
 
 " Whitespace
 set wrap
@@ -283,9 +285,17 @@ let g:gitgutter_async=1
 " let g:UltiSnipsEditSplit="vertical"
 
 " --------------------------------------------------------------------------------
+"  fzf
+nnoremap <C-p> :GFiles<Cr>
+" --------------------------------------------------------------------------------
 " vim-clang
 " let g:clang_c_options='-std=gnu11'
 " let g:clang_cpp_options='-std=c++11 -stdlib=libc++'
 " use compile commands
 " let g:clang_compilation_database='./build'
-
+" --------------------------------------------------------------------------------
+" modern-cpp-highlight
+" Enable highlighting of C++11 attributes
+let g:cpp_attributes_highlight = 1
+" Highlight struct/class member variables (affects both C and C++ files)
+let g:cpp_member_highlight = 1
